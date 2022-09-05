@@ -1,4 +1,4 @@
-import { FormEvent, useState } from 'react'
+import { FormEvent, useCallback, useState } from 'react'
 import { SearchResult } from './components/SeachResults'
 
 export default function App() {
@@ -15,8 +15,14 @@ export default function App() {
     const response = await fetch(`http://localhost:3333/users?q=${search}`)
     const data = await response.json()
 
+    //melhor momento para formatar os dados
+
     setResults(data)
   }
+
+  const addToWishList = useCallback(async (id: number) => {
+    console.log(id)
+  }, [])
 
   return (
     <div>
@@ -30,8 +36,13 @@ export default function App() {
         />
         <button type="submit">Buscar</button>
 
-        <SearchResult results={results} />
+        <SearchResult results={results} addToWishList={addToWishList} />
       </form>
     </div>
   )
 }
+
+/**
+ UseCallback
+ * 1. Usada principalmente em contextos ou Redux quando a função e utilizada por varios componentes e manter a funçao calculando somente quando necessário.
+ */
